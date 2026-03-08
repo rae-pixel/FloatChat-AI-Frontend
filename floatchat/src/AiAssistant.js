@@ -4,8 +4,6 @@ import { FaPlus, FaPaperPlane } from 'react-icons/fa';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import axios from 'axios';
 import 'leaflet/dist/leaflet.css';
-
-// Animated dots loading indicator
 function LoadingDots() {
   const [dots, setDots] = useState('.');
   useEffect(() => {
@@ -16,26 +14,21 @@ function LoadingDots() {
   }, []);
   return <span style={{ fontSize: 24, letterSpacing: 6 }}>{dots}</span>;
 }
-
 export default function AiAssistant() {
   const [chat, setChat] = useState([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
   const backendUrl = 'http://10.180.9.216:8000/ask';
-
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
     const question = input;
     setInput('');
     setIsLoading(true);
-
     setChat(prev => [
       ...prev,
       { role: 'user', text: question, showMap: false },
       { role: 'loading', text: '', showMap: false }
     ]);
-
     try {
       const response = await axios.post(backendUrl, { question });
       const answer = response.data?.answer || 'Sorry, no response from backend.';
@@ -64,16 +57,13 @@ export default function AiAssistant() {
   const handleKeyPress = e => {
     if (e.key === 'Enter') handleSend();
   };
-
   const handleFileUpload = e => {
     const file = e.target.files[0];
     if (!file) return;
     alert(`Uploaded file: ${file.name}`);
   };
-
   return (
     <Box sx={{ position: 'relative', minHeight: '100vh', bgcolor: '#eef6fd', py: 7, px: 5 }}>
-      {/* Top ocean wave decoration */}
       <Box
         sx={{
           position: 'absolute',
@@ -93,8 +83,6 @@ export default function AiAssistant() {
           />
         </svg>
       </Box>
-
-      {/* Bottom right animated bubbles */}
       <Box
         sx={{
           position: 'absolute',
@@ -122,7 +110,6 @@ export default function AiAssistant() {
           }
         `}
       </style>
-
       <Typography variant="h4" gutterBottom color="#1c4673" sx={{ position: 'relative', zIndex: 2 }}>
         FloatChat AI Assistant
       </Typography>
